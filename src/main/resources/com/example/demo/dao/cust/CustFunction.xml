@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.cust.CustFunction">
+    <select id="getLoginFunctionList" resultType="Map" parameterType="String">
+		SELECT 
+			B.CODE_DESC AS GroupName,
+			B.CODE_TAG AS iconType,
+			A.FN_PATH,
+			FN_DESC
+		FROM 
+			FUNCTION_LIST A,
+			MAPPING_CODE B
+		WHERE 
+			A.FN_GROUP_NO=B.CODE_NO 
+			AND B.CODE_TYPE='FN_GROUP_LINE'
+		ORDER BY 
+			B.CODE_SORT ,A.FN_SORT
+	</select>
+
+    <select id="getUserColComments" resultType="map">
+        SELECT * from user_col_comments
+        WHERE TABLE_NAME = #{tableName}
+        AND COLUMN_NAME IN
+        <foreach collection="columnNameList" item="columnName" index="index" open="(" close=")" separator=",">
+            #{columnName}
+        </foreach>
+    </select>
+
+    <select id="getColumnList" resultType="map">
+		SELECT * from user_col_comments
+		WHERE TABLE_NAME = #{tableName}
+	</select>
+
+	<sql id="OracleDialectPrefix">
+		<if test="page != null">
+			select * from ( select row_.*, rownum rownum_ from (
+		</if>
+	</sql>
+
+	<sql id="OracleDialectSuffix">
+		<if test="page != null">
+			<![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+		</if>
+	</sql>
+
+<!-- 	<select id="getAllDownLevelPersonMainByLimitNo" resultType="map" parameterType="java.lang.String"> -->
+<!-- 		SELECT A.* -->
+<!-- 		FROM LI_PERSON_MAIN A -->
+<!-- 		START WITH A.LIMIT_NO = #{limitNo} -->
+<!-- 		CONNECT BY PRIOR A.LIMIT_NO = A.UP_LEVEL -->
+<!-- 		ORDER BY LEVEL_NO -->
+<!-- 	</select> -->
+
+</mapper>

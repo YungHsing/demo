@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: springboot-demo
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.235.128:1521:ORCLCDB
+    username: DEV_USR
+    password: ENC(mbbXcVLJ8lrIWwX3Y4WzYTPtPhMsGKLD)
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+  cache:
+    jcache:
+      config:
+        classpath:ehcache/ehcache.xml
+
+#jasypt加密的密匙
+jasypt:
+  encryptor:
+    password: e6FzpNL0w8l5XJ9ykVDHO567Rv/US2dN

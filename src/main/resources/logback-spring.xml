@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration  scan="true" scanPeriod="60 seconds" debug="false">
+  <property name="CLIENT_NAME" value="Limit"/>
+  <!--設定 Log 輸出格式-->
+  <property name="PATTERN_FORMAT" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+  
+  <!-- mybatis設定  -->
+  <logger name="com.*" level="INFO"/>
+  <logger name="org.mybatis" level="DEBUG"/>
+  <logger name="org.apache" level="WARN"/>
+  <logger name="org.springframework" level="WARN"/>
+  <logger name="java.sql.Connection" level="DEBUG" />
+  <logger name="java.sql.Statement" level="DEBUG" />
+  <logger name="java.sql.PreparedStatement" level="DEBUG" />
+  <logger name="java.sql.ResultSet" level="DEBUG" />
+
+  <contextName>logback</contextName>
+  <!--輸出到 Console-->
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${PATTERN_FORMAT}</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- info level 輸出到檔案-->
+  <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+       <fileNamePattern>/${user.home}/rstn/aplog/${CLIENT_NAME}_logback.info.%d{yyyy-MM-dd}.log</fileNamePattern>
+       <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>info</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- warn level 輸出到檔案-->
+  <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+   	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      	<fileNamePattern>/${user.home}/rstn/aplog/${CLIENT_NAME}_logback.warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+      	 <maxHistory>30</maxHistory>
+  	</rollingPolicy>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>warn</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- error level 輸出到檔案-->
+  <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/${user.home}/rstn/aplog/${CLIENT_NAME}_logback.error.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>error</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="console" />
+    <appender-ref ref="info" />
+  </root>
+
+</configuration>
